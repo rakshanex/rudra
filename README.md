@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="logo.png" alt="RUDRA" width="220">
+</p>
+
 # RUDRA 🔱 — A Fast, Safe, and Easy Systems Language
 
 RUDRA is a compiled programming language with **C-class speed**, real
