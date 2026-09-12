@@ -45,17 +45,19 @@ rudrac hello.rux --run
 
 Free to use. See LICENSE. Source is proprietary (© RAKSHANEX).
 
+
 ## VS Code Extension
 
-Get syntax highlighting and live error diagnostics in VS Code:
+RUDRA has an official VS Code extension (syntax highlighting + live error
+diagnostics), published by **RAKSHANEX TECHNOLOGIES**.
 
-1. Download `rudra-vscode-1.0.0.vsix` from the latest release.
-2. Install it:
-   ```bash
-   code --install-extension rudra-vscode-1.0.0.vsix
-   ```
-   (Or in VS Code: Extensions → "…" menu → "Install from VSIX".)
-3. Open any `.rux` file — you get highlighting and inline errors.
+**Install from the Marketplace (easiest):**
+- In VS Code: Extensions (Ctrl+Shift+X) → search **"RUDRA"** → Install
+- Or run:
+  ```bash
+  code --install-extension rakshanex.rudra
+  ```
+- Marketplace page: https://marketplace.visualstudio.com/items?itemName=rakshanex.rudra
 
 The extension uses the `rudra-lsp` binary (included in this toolchain). If it is
 not on your PATH, set `rudra.lspPath` in VS Code settings to its absolute path.
