@@ -12,10 +12,10 @@ easy, readable syntax.
 This repository distributes the **RUDRA toolchain binaries**. RUDRA is free to
 use. The compiler source is proprietary and not included.
 
-> **Honest scope:** RUDRA today is great for single-binary command-line tools
-> (file I/O, arguments, strings, math -- all native, zero dependencies).
-> Networking, threads, and JSON are on the roadmap, not yet on the native
-> backend. See STATUS in the source project.
+> **Honest scope:** RUDRA is great for single-binary command-line tools AND
+> now runs real TCP + HTTP servers natively (zero dependencies) — deployable to
+> any Linux VPS. Client-side networking (outbound requests), threads, and JSON
+> are still on the roadmap.
 
 ## Install
 
