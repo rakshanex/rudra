@@ -19,19 +19,25 @@ use. The compiler source is proprietary and not included.
 
 ## Install
 
-RUDRA runs on Linux, macOS, and Windows. Download the installer for your system
-from the latest [release](https://github.com/rakshanex/rudra/releases) and run it.
+RUDRA runs on Linux, macOS, and Windows. Download the archive for your system
+from the latest [release](https://github.com/rakshanex/rudra/releases), extract
+it, and put the `bin` folder on your PATH.
 
-| OS | Installer | How |
-|----|-----------|-----|
-| Linux (Debian/Ubuntu) | `rudra-*-amd64.deb` | `sudo dpkg -i rudra-*-amd64.deb` |
-| macOS (Apple Silicon) | `rudra-macos-arm64.pkg` | double-click, or `sudo installer -pkg rudra-macos-arm64.pkg -target /` |
-| Windows (x86_64) | `rudra-*-windows-x86_64-setup.exe` | run the installer (adds RUDRA to PATH) |
+| OS | Download |
+|----|----------|
+| Linux (x86_64) | `rudra-linux-x86_64.tar.gz` |
+| macOS (Apple Silicon) | `rudra-macos-arm64.tar.gz` |
+| Windows (x86_64) | `rudra-windows-x86_64.zip` |
 
-Then open a new terminal and run:
+**Linux / macOS:**
 ```bash
+tar -xzf rudra-<your-platform>.tar.gz
+cd rudra-* && ./install.sh    # or add ./bin to your PATH
 rudra version
 ```
+
+**Windows:** extract the `.zip` and add the `bin` folder to your PATH, then run
+`rudra version` in a new terminal.
 
 RUDRA is fully self-contained: it generates native code and writes the
 executable itself. **No C compiler, linker, or other toolchain is required.**
@@ -60,7 +66,15 @@ rudrac hello.rux --run
 
 ## License
 
-Free to use. See LICENSE. Source is proprietary (© RAKSHANEX).
+RUDRA is **free to use** — download it and build anything, including commercial
+software, at no charge. The programs and binaries **you** produce are entirely
+yours.
+
+The RUDRA toolchain itself is proprietary: the compiler **source code is not
+public**, and the binaries may not be reverse-engineered or resold as your own
+product. See [LICENSE](LICENSE) for the full terms.
+
+© 2026 Piyush Kumar / RAKSHANEX TECHNOLOGIES. All rights reserved.
 
 
 ## VS Code Extension
