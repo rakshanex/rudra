@@ -4,13 +4,18 @@
 
 # RUDRA 🔱 — A Fast, Safe, and Easy Systems Language
 
-RUDRA is a compiled programming language with **C-class speed**, real
+RUDRA is a compiled programming language with a **self-contained backend** (it emits native machine code itself, with no C compiler or linker), real
 **memory safety** (no null, bounds-checked, use-after-free caught), a modern
 type system (generics, trait bounds, sum types, `Option`/`Result`), and an
 easy, readable syntax.
 
 This repository distributes the **RUDRA toolchain binaries**. RUDRA is free to
 use. The compiler source is proprietary and not included.
+
+> **Honest scope:** RUDRA today is great for single-binary command-line tools
+> (file I/O, arguments, strings, math -- all native, zero dependencies).
+> Networking, threads, and JSON are on the roadmap, not yet on the native
+> backend. See STATUS in the source project.
 
 ## Install
 
@@ -34,8 +39,8 @@ rudra version
 **Windows:** extract the `.zip` and add the `bin` folder to your PATH, then run
 `rudra version` in a new terminal.
 
-A C compiler (`gcc`/`clang` on Linux/macOS, or MSVC/MinGW on Windows) must be
-present — RUDRA compiles to native code through it.
+RUDRA is fully self-contained: it generates native code and writes the
+executable itself. **No C compiler, linker, or other toolchain is required.**
 
 
 ## The Tools
