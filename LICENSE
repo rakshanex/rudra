@@ -1,21 +1,30 @@
-MIT License
+RUDRA License
+Copyright (c) 2026 Piyush Kumar / RAKSHANEX TECHNOLOGIES. All rights reserved.
 
-Copyright (c) 2026 Piyush Kumar
+1. Definitions.
+   "Software" means the RUDRA toolchain binaries distributed in this repository
+   and its releases (rudra, rudrac, ruxpkg, rudra-lsp, and installers).
+   "Source" means the RUDRA compiler source code, which is proprietary and is
+   NOT included in this repository or its releases.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+2. Grant (free to use).
+   You are granted a free, worldwide, non-exclusive license to download,
+   install, and use the Software to build and run your own programs, for
+   personal, educational, and commercial purposes, at no charge.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+3. Restrictions.
+   You may NOT: (a) reverse engineer, decompile, or disassemble the Software,
+   except to the extent this restriction is prohibited by applicable law;
+   (b) sell, sublicense, rent, or redistribute the Software itself as your own
+   product; (c) remove or alter any copyright or attribution notices.
+   Programs YOU write with RUDRA are entirely yours — this license does not
+   claim any rights over your code or the binaries you produce.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+4. Ownership.
+   The Software and Source are and remain the exclusive property of the
+   copyright holder. No rights are granted except as expressly stated here.
+
+5. No warranty.
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+   CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM THE USE OF THE SOFTWARE.
