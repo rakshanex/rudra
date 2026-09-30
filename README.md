@@ -12,22 +12,30 @@ easy, readable syntax.
 This repository distributes the **RUDRA toolchain binaries**. RUDRA is free to
 use. The compiler source is proprietary and not included.
 
-> **Honest scope:** RUDRA is great for single-binary command-line tools AND
-> now runs real TCP + HTTP servers natively (zero dependencies) — deployable to
-> any Linux VPS. Client-side networking (outbound requests), threads, and JSON
-> are still on the roadmap.
+> **Honest scope:** RUDRA is great for single-binary command-line tools and
+> runs real TCP + HTTP servers natively (zero dependencies) — deployable to any
+> Linux VPS. As of **v1.1.0** it also ships **OS threads, a mutex, channels,
+> an HTTP client (`http_get`), and JSON reading (objects + arrays)** — all on
+> the native backend. DNS/hostname resolution and HTTPS/TLS remain on the
+> roadmap.
 
 ## Install
 
-RUDRA runs on Linux, macOS, and Windows. Download the archive for your system
-from the latest [release](https://github.com/rakshanex/rudra/releases), extract
-it, and put the `bin` folder on your PATH.
+RUDRA runs on Linux (and cross-compiles programs to macOS). Download the
+archive for your system from the latest
+[release](https://github.com/rakshanex/rudra/releases), extract it, and put the
+`bin` folder on your PATH.
 
-| OS | Download |
-|----|----------|
-| Linux (x86_64) | `rudra-linux-x86_64.tar.gz` |
-| macOS (Apple Silicon) | `rudra-macos-arm64.tar.gz` |
-| Windows (x86_64) | `rudra-windows-x86_64.zip` |
+| OS | Download | Status |
+|----|----------|--------|
+| Linux (x86_64) | `rudra-linux-x86_64.tar.gz` | ✅ v1.1.0 |
+| macOS (Apple Silicon) | `rudra-macos-arm64.tar.gz` | earlier release |
+| Windows (x86_64) | `rudra-windows-x86_64.zip` | earlier release |
+
+The current **v1.1.0** toolchain ships the Linux x86_64 build. macOS and Windows
+builds are published on a slower cadence — use the newest available archive for
+those platforms from the [releases](https://github.com/rakshanex/rudra/releases)
+page.
 
 **Linux / macOS:**
 ```bash
@@ -86,9 +94,9 @@ diagnostics), published by **RAKSHANEX TECHNOLOGIES**.
 - In VS Code: Extensions (Ctrl+Shift+X) → search **"RUDRA"** → Install
 - Or run:
   ```bash
-  code --install-extension rakshanex.rudra
+  code --install-extension rakshanex.rudra-lang
   ```
-- Marketplace page: https://marketplace.visualstudio.com/items?itemName=rakshanex.rudra
+- Marketplace page: https://marketplace.visualstudio.com/items?itemName=rakshanex.rudra-lang
 
 The extension uses the `rudra-lsp` binary (included in this toolchain). If it is
 not on your PATH, set `rudra.lspPath` in VS Code settings to its absolute path.
