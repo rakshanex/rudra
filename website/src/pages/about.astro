@@ -1,0 +1,54 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="About RUDRA" description="RUDRA's philosophy, design goals and the ecosystem around the language." path="/about">
+  <section class="section">
+    <div class="container" style="max-width:760px">
+      <p class="eyebrow">About</p>
+      <h1>A compiled language built around a native backend</h1>
+      <p class="lead">
+        RUDRA is a statically typed, compiled systems language. Its defining
+        trait is a native backend: the compiler turns a single source file into
+        a native executable directly.
+      </p>
+
+      <h2 style="margin-top:2.5rem">Philosophy</h2>
+      <p>
+        RUDRA aims to be easy to read, predictable to compile, and honest about
+        its scope. The language favors a small, well-defined surface over a long
+        list of partially working features. Capabilities are added when they can
+        be compiled, run and verified.
+      </p>
+
+      <h2 style="margin-top:2rem">Design goals</h2>
+      <ul>
+        <li><strong>Readable syntax.</strong> Familiar function, binding and control-flow forms.</li>
+        <li><strong>Static type checking.</strong> Type errors are caught before a program runs.</li>
+        <li><strong>Memory-safety orientation.</strong> The language is designed around safe access patterns.</li>
+        <li><strong>A native backend.</strong> Source compiles to a native executable.</li>
+        <li><strong>Honest scope.</strong> Documented capabilities match what the shipped toolchain does.</li>
+      </ul>
+
+      <h2 style="margin-top:2rem">The ecosystem</h2>
+      <p>
+        Around the language sits a toolchain: a driver, a compiler, a package
+        tool and a language server, plus planned components such as a graphical
+        IDE. Each is presented independently on the
+        <a href="/ecosystem">Ecosystem</a> page with an accurate status so that
+        experimental and planned work is never presented as production ready.
+      </p>
+
+      <div class="callout callout-info" style="margin-top:2rem">
+        <h4>Two toolchains, one language</h4>
+        <p>
+          The publicly distributed toolchain binaries are dynamically linked
+          executables. The project also has a separate self-hosting research
+          compiler that is not part of this public distribution. This site only
+          makes claims about the distributed release. See
+          <a href="/transparency">Transparency</a> for details.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>

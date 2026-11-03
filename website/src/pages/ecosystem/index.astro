@@ -1,0 +1,27 @@
+---
+import Base from "../../layouts/Base.astro";
+import StatusBadge from "../../components/StatusBadge.astro";
+import { components } from "../../data/ecosystem";
+---
+
+<Base title="Ecosystem" description="The RUDRA ecosystem: language, compiler, runtime, standard library, Ruxel Studio, toolchain, AI integration and security capabilities." path="/ecosystem">
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Ecosystem</p>
+      <h1>The RUDRA ecosystem</h1>
+      <p class="lead">
+        Eight components, each presented independently with an accurate status.
+        Statuses reflect what has been verified against the shipped release.
+      </p>
+      <div class="grid grid-2" style="margin-top:2rem">
+        {components.map((c) => (
+          <a class="card" href={`/ecosystem/${c.slug}`} style="display:block">
+            <StatusBadge status={c.status} />
+            <h3>{c.name}</h3>
+            <p style="font-size:0.93rem">{c.tagline}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

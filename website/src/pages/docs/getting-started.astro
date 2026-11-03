@@ -1,0 +1,35 @@
+---
+import Docs from "../../layouts/Docs.astro";
+import CodeBlock from "../../components/CodeBlock.astro";
+---
+
+<Docs title="Getting Started" description="Install RUDRA, compile your first program and run it." slug="getting-started">
+  <p class="lead">This guide takes you from install to a running program in a few minutes. Every command and example here was checked against the shipped RUDRA 1.1.0 toolchain.</p>
+
+  <h2>1. Install the toolchain</h2>
+  <p>Download the Linux x86_64 archive from <a href="/downloads">Downloads</a>, verify its checksum, then install it:</p>
+  <CodeBlock lang="sh" code={`tar -xzf rudra-linux-x86_64.tar.gz
+cd rudra-linux-x86_64 && ./install.sh
+rudra version`} />
+  <p>You should see <code>RUDRA 1.1.0</code>.</p>
+
+  <h2>2. Your first program</h2>
+  <p>Create a file named <code>hello.rux</code>:</p>
+  <CodeBlock code={`fn main() {
+    print("Hello, RUDRA!");
+}`} />
+
+  <h2>3. Compile and run</h2>
+  <p>Use the compiler directly:</p>
+  <CodeBlock lang="sh" code={`rudrac hello.rux --run`} />
+  <p>Or create a project with the driver:</p>
+  <CodeBlock lang="sh" code={`rudra new myapp
+cd myapp
+rudra run`} />
+  <p>A new project contains a <code>Rux.toml</code> and a <code>src/main.rux</code> entry point.</p>
+
+  <div class="callout callout-info">
+    <h4>Next</h4>
+    <p>Continue to <a href="/docs/installation">Installation</a> for platform details, or jump to <a href="/docs/language-fundamentals">Language Fundamentals</a>.</p>
+  </div>
+</Docs>

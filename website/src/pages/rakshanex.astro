@@ -1,0 +1,41 @@
+---
+import Base from "../layouts/Base.astro";
+import { githubRepo } from "../data/nav";
+---
+
+<Base title="RAKSHANEX Technologies" description="RAKSHANEX Technologies is the parent organization behind RUDRA." path="/rakshanex">
+  <section class="section">
+    <div class="container" style="max-width:760px">
+      <p class="eyebrow">Parent organization</p>
+      <img src="/rakshanex-logo.png" alt="RAKSHANEX Technologies logo" width="120" height="120"
+        style="border-radius:18px;border:1px solid var(--border);margin-bottom:1rem" />
+      <h1>RAKSHANEX Technologies</h1>
+
+      <p class="lead" style="margin-top:1.5rem">
+        RAKSHANEX Technologies is the organization behind RUDRA. RUDRA is a
+        RAKSHANEX Technologies product.
+      </p>
+
+      <h2 style="margin-top:2rem">Attribution</h2>
+      <p>Powered by RAKSHANEX Technologies.</p>
+
+      <h2 style="margin-top:2rem">Product</h2>
+      <p>
+        RUDRA, the compiled systems language and its toolchain, is developed and
+        maintained under RAKSHANEX Technologies. Source distribution and
+        releases are available on the
+        <a href={githubRepo} rel="noopener">GitHub repository</a>.
+      </p>
+
+      <div class="callout callout-info" style="margin-top:1.5rem">
+        <h4>Contact</h4>
+        <p>
+          For support and inquiries, email
+          <a href="mailto:support@rudralang.tech">support@rudralang.tech</a>.
+          Additional official organization links will be listed here once
+          verified.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>

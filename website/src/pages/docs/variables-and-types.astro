@@ -1,0 +1,54 @@
+---
+import Docs from "../../layouts/Docs.astro";
+import CodeBlock from "../../components/CodeBlock.astro";
+---
+
+<Docs title="Variables and Types" description="Bindings, mutability and the core RUDRA types." slug="variables-and-types">
+  <p class="lead">RUDRA is statically typed. Bindings are immutable by default.</p>
+
+  <h2>Bindings</h2>
+  <p>Use <code>let</code> for an immutable binding and <code>let mut</code> for a mutable one.</p>
+  <CodeBlock code={`fn main() {
+    let name = "RUDRA";
+    let mut count = 3;
+    count = count + 1;
+    print(name);
+    print(count);
+}`} />
+
+  <h2>Type annotations</h2>
+  <p>You can annotate a binding with its type.</p>
+  <CodeBlock code={`fn main() {
+    let title: str = "Systems language";
+    let answer: int = 42;
+    print(title);
+    print(answer);
+}`} />
+
+  <h2>Core types</h2>
+  <table>
+    <thead><tr><th>Type</th><th>Description</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td><code>int</code></td><td>Integer</td><td><code>42</code></td></tr>
+      <tr><td><code>float</code></td><td>Floating-point number</td><td><code>3.14</code></td></tr>
+      <tr><td><code>bool</code></td><td>Boolean</td><td><code>true</code>, <code>false</code></td></tr>
+      <tr><td><code>str</code></td><td>String</td><td><code>"text"</code></td></tr>
+    </tbody>
+  </table>
+
+  <h2>Arrays</h2>
+  <p>Array literals hold a fixed set of values, indexed from zero.</p>
+  <CodeBlock code={`fn main() {
+    let nums = [10, 20, 30];
+    print(nums[0]);
+    print(nums[2]);
+}`} />
+
+  <h2>Strings</h2>
+  <p>Strings concatenate with <code>+</code>, and <code>len</code> returns a string length.</p>
+  <CodeBlock code={`fn main() {
+    let greeting = "Namaste, " + "RUDRA";
+    print(greeting);
+    print(len(greeting));
+}`} />
+</Docs>

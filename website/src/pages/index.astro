@@ -1,0 +1,100 @@
+---
+import Base from "../layouts/Base.astro";
+import StatusBadge from "../components/StatusBadge.astro";
+import { components } from "../data/ecosystem";
+import { features, toolchainVersion } from "../data/features";
+import { githubRepo } from "../data/nav";
+
+const highlight = features.filter((f) =>
+  ["Compile and run a program", "OS threads", "Channels", "HTTP client (http_get)"].includes(f.name)
+);
+---
+
+<Base title="RUDRA" description="RUDRA is a compiled systems language with a native backend. Explore the language, compiler, runtime, standard library and developer toolchain." path="/">
+  <section class="hero">
+    <div class="container">
+      <img class="hero-emblem" src="/rudra-phoenix.png" alt="RUDRA phoenix logo" width="128" height="128" />
+      <p class="eyebrow">RUDRA {toolchainVersion}</p>
+      <h1>More Than Just a Language. A Platform for the Future.</h1>
+      <p class="lead">
+        RUDRA is a compiled systems language with a native backend. It turns
+        a single source file into a native executable, with an easy, readable
+        syntax and a growing toolchain. This site publishes only capabilities
+        that have been independently verified against the shipped release.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="/docs/getting-started">Get Started</a>
+        <a class="btn btn-ghost" href="/ecosystem">Explore Ecosystem</a>
+        <a class="btn btn-ghost" href={githubRepo} rel="noopener">View on GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="callout callout-info">
+        <h4>Release availability</h4>
+        <p>
+          The RUDRA {toolchainVersion} toolchain is published for Linux x86_64,
+          with macOS and Windows installers on an earlier release. See
+          <a href="/downloads">Downloads</a> for verified assets and checksums,
+          and <a href="/transparency">Transparency</a> for the exact verified
+          feature surface.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Ecosystem</p>
+      <h2>One language, a modular ecosystem</h2>
+      <p class="lead">Each component is presented independently with an accurate status.</p>
+      <div class="grid grid-3" style="margin-top:1.8rem">
+        {components.map((c) => (
+          <a class="card" href={`/ecosystem/${c.slug}`} style="text-decoration:none;display:block">
+            <StatusBadge status={c.status} />
+            <h3>{c.name}</h3>
+            <p style="font-size:0.93rem">{c.tagline}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Verified highlights</p>
+      <h2>What has been independently verified</h2>
+      <div class="grid grid-2" style="margin-top:1.6rem">
+        {highlight.map((f) => (
+          <div class="card">
+            <StatusBadge status={f.status} />
+            <h3>{f.name}</h3>
+            <p style="font-size:0.93rem">{f.summary}</p>
+          </div>
+        ))}
+      </div>
+      <p style="margin-top:1.4rem">
+        <a href="/transparency">See the full verification matrix and evidence.</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Documentation</h3>
+          <p>Getting started, installation, syntax, the standard library and the compiler guide. Every example is checked against the shipped compiler.</p>
+          <a class="btn btn-ghost" href="/docs/getting-started">Read the docs</a>
+        </div>
+        <div class="card">
+          <h3>Community</h3>
+          <p>Discussion, help, feature requests and showcases, hosted on GitHub Discussions.</p>
+          <a class="btn btn-ghost" href="/community">Join the community</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,45 @@
+---
+import Base from "../layouts/Base.astro";
+import { categories, providedByGitHub, notImplementedOnSite } from "../data/community";
+import { githubDiscussions, githubIssues } from "../data/nav";
+---
+
+<Base title="Community" description="The RUDRA community runs on GitHub Discussions: profiles, threads, search, reactions and moderation provided by GitHub." path="/community">
+  <section class="section">
+    <div class="container" style="max-width:860px">
+      <p class="eyebrow">Community</p>
+      <h1>Join the RUDRA community</h1>
+      <p class="lead">
+        The RUDRA community is hosted on GitHub Discussions. This gives every
+        participant a real account, moderation tools and notifications, with no
+        separate login to manage.
+      </p>
+
+      <div class="hero-actions" style="margin:1.5rem 0">
+        <a class="btn btn-primary" href={githubDiscussions} rel="noopener">Open GitHub Discussions</a>
+        <a class="btn btn-ghost" href={githubIssues} rel="noopener">Report a Bug</a>
+      </div>
+
+      <h2 style="margin-top:2rem">Categories</h2>
+      <p>Start or join a conversation in any category on GitHub Discussions:</p>
+      <div class="grid grid-2" style="margin-top:1rem">
+        {categories.map((c) => (
+          <a class="card" href={githubDiscussions} rel="noopener" style="display:block">
+            <h3 style="font-size:1.05rem">{c.name}</h3>
+            <p style="font-size:0.9rem">{c.purpose}</p>
+          </a>
+        ))}
+      </div>
+
+      <h2 style="margin-top:2.5rem">What the community platform provides</h2>
+      <p>These capabilities are provided by GitHub Discussions:</p>
+      <ul>{providedByGitHub.map((i) => <li>{i}</li>)}</ul>
+
+      <div class="callout callout-warn" style="margin-top:1.5rem">
+        <h4>Not implemented on this website</h4>
+        <p>To keep the platform secure and maintainable, the following are intentionally not built into this website:</p>
+        <ul style="margin:0.5rem 0 0">{notImplementedOnSite.map((i) => <li>{i}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+</Base>

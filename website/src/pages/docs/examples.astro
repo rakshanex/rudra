@@ -1,0 +1,62 @@
+---
+import Docs from "../../layouts/Docs.astro";
+import CodeBlock from "../../components/CodeBlock.astro";
+---
+
+<Docs title="Examples" description="Complete, verified RUDRA programs." slug="examples">
+  <p class="lead">Each example below was compiled and run with RUDRA 1.1.0.</p>
+
+  <h2>Sum of a range</h2>
+  <CodeBlock code={`fn main() {
+    let mut i = 0;
+    let mut total = 0;
+    while i < 5 {
+        total = total + i;
+        i = i + 1;
+    }
+    print(total);
+}`} />
+  <p>Prints <code>10</code>.</p>
+
+  <h2>Factorial</h2>
+  <CodeBlock code={`fn factorial(n: int) -> int {
+    if n <= 1 {
+        return 1;
+    }
+    return n * factorial(n - 1);
+}
+fn main() {
+    print(factorial(5));
+}`} />
+  <p>Prints <code>120</code>.</p>
+
+  <h2>Struct and function</h2>
+  <CodeBlock code={`struct Point { x: int, y: int }
+fn manhattan(p: Point) -> int {
+    return p.x + p.y;
+}
+fn main() {
+    let p = Point { x: 3, y: 4 };
+    print(manhattan(p));
+}`} />
+  <p>Prints <code>7</code>.</p>
+
+  <h2>Enum classification</h2>
+  <CodeBlock code={`enum Sign { Neg, Zero, Pos }
+fn sign(n: int) -> Sign {
+    if n < 0 { return Neg; }
+    if n > 0 { return Pos; }
+    return Zero;
+}
+fn label(s: Sign) -> str {
+    match s {
+        Neg => { return "negative"; }
+        Zero => { return "zero"; }
+        Pos => { return "positive"; }
+    }
+}
+fn main() {
+    print(label(sign(-9)));
+}`} />
+  <p>Prints <code>negative</code>.</p>
+</Docs>

@@ -1,68 +1,60 @@
 <p align="center">
-  <img src="logo.png" alt="RUDRA" width="220">
+  <img src="assets/branding/rudra/rudra-phoenix.png" alt="RUDRA" width="200">
 </p>
 
-# RUDRA 🔱 — A Fast, Safe, and Easy Systems Language
+<h1 align="center">RUDRA</h1>
 
-RUDRA is a compiled programming language with a **self-contained backend** (it emits native machine code itself, with no C compiler or linker), real
-**memory safety** (no null, bounds-checked, use-after-free caught), a modern
-type system (generics, trait bounds, sum types, `Option`/`Result`), and an
-easy, readable syntax.
+<p align="center"><strong>A fast, safe, self-contained systems language.</strong></p>
 
-This repository distributes the **RUDRA toolchain binaries**. RUDRA is free to
-use. The compiler source is proprietary and not included.
+<p align="center">
+  <a href="https://rudralang.tech">rudralang.tech</a> ·
+  <a href="https://github.com/rakshanex/rudra/releases">Downloads</a> ·
+  <a href="https://github.com/rakshanex/rudra/discussions">Community</a>
+</p>
 
-> **Honest scope:** RUDRA is great for single-binary command-line tools and
-> runs real TCP + HTTP servers natively (zero dependencies) — deployable to any
-> Linux VPS. As of **v1.1.0** it also ships **OS threads, a mutex, channels,
-> an HTTP client (`http_get`), and JSON reading (objects + arrays)** — all on
-> the native backend. DNS/hostname resolution and HTTPS/TLS remain on the
-> roadmap.
+---
+
+RUDRA is a compiled, statically typed systems language with a native backend:
+the compiler turns a single `.rux` source file into a native executable. It has
+an easy, readable syntax, compile-time type checking and a memory-safety
+oriented design.
+
+The compiler source is proprietary. This repository distributes the RUDRA
+toolchain binaries and the public documentation. The toolchain is free to use.
 
 ## Install
 
-RUDRA runs on Linux (and cross-compiles programs to macOS). Download the
-archive for your system from the latest
-[release](https://github.com/rakshanex/rudra/releases), extract it, and put the
-`bin` folder on your PATH.
+Download the archive for your platform from the
+[releases](https://github.com/rakshanex/rudra/releases) page, verify its
+checksum, then install.
 
-| OS | Download | Status |
-|----|----------|--------|
-| Linux (x86_64) | `rudra-linux-x86_64.tar.gz` | ✅ v1.1.0 |
-| macOS (Apple Silicon) | `rudra-macos-arm64.tar.gz` | earlier release |
-| Windows (x86_64) | `rudra-windows-x86_64.zip` | earlier release |
+| Platform | Asset | Release |
+|----------|-------|---------|
+| Linux (x86_64) | `rudra-linux-x86_64.tar.gz` | v1.1.0 (latest) |
+| macOS (Apple Silicon) | `rudra-macos-arm64.pkg` | v1.0.1 |
+| Windows (x86_64) | `rudra-1.0.1-windows-x86_64-setup.exe` | v1.0.1 |
 
-The current **v1.1.0** toolchain ships the Linux x86_64 build. macOS and Windows
-builds are published on a slower cadence — use the newest available archive for
-those platforms from the [releases](https://github.com/rakshanex/rudra/releases)
-page.
+**Linux:**
 
-**Linux / macOS:**
 ```bash
-tar -xzf rudra-<your-platform>.tar.gz
-cd rudra-* && ./install.sh    # or add ./bin to your PATH
+tar -xzf rudra-linux-x86_64.tar.gz
+cd rudra-linux-x86_64 && ./install.sh
 rudra version
 ```
 
-**Windows:** extract the `.zip` and add the `bin` folder to your PATH, then run
-`rudra version` in a new terminal.
+Verify the download before installing:
 
-RUDRA is fully self-contained: it generates native code and writes the
-executable itself. **No C compiler, linker, or other toolchain is required.**
+```bash
+sha256sum rudra-linux-x86_64.tar.gz
+# expected: 3da546bae30161456698504bc779470881c4f8219d8154766391dcc9ce9fcd2f
+```
 
+The distributed toolchain binaries (`rudra`, `rudrac`, `ruxpkg`, `rudra-lsp`)
+are dynamically linked executables.
 
-## The Tools
+## Your first program
 
-| Tool | Purpose |
-|------|---------|
-| `rudra` | driver: create, run, build, format, test |
-| `rudrac` | compiler: one `.rux` file → native binary |
-| `ruxpkg` | package manager (local registry) |
-| `rudra-lsp` | language server (editor diagnostics) |
-
-## Your First Program
-
-```rudra
+```rux
 fn main() {
     print("Hello, RUDRA!");
 }
@@ -72,31 +64,69 @@ fn main() {
 rudrac hello.rux --run
 ```
 
+## The tools
+
+| Tool | Purpose |
+|------|---------|
+| `rudra` | driver: new, run, build, check, clean, doctor, version |
+| `rudrac` | compiler: one `.rux` file to a native binary |
+| `ruxpkg` | package tool (local registry) |
+| `rudra-lsp` | language server (editor diagnostics) |
+
+## Feature status (v1.1.0, independently verified)
+
+Statuses below reflect testing against the shipped v1.1.0 toolchain. Full
+evidence is on the [Transparency](https://rudralang.tech/transparency) page.
+
+| Capability | Status | Notes |
+|------------|--------|-------|
+| Compile and run | VERIFIED | `rudrac file.rux --run` produces and runs a native binary |
+| Functions, control flow, structs, enums, match | VERIFIED | type-checked at compile time |
+| OS threads | VERIFIED | `spawn(fn, arg)` runs on a real OS thread |
+| Mutex | PARTIALLY VERIFIED | `mutex_new`, `lock`, `unlock` |
+| Channels | PARTIALLY VERIFIED | `chan_new`, `chan_send`, `chan_recv` |
+| HTTP client | PARTIALLY VERIFIED | `http_get(url)` over TCP; numeric IP only, no DNS, no TLS |
+| JSON object reading | PARTIALLY VERIFIED | `json_get(text, key)` |
+| DNS / HTTPS / TLS | PLANNED | not shipped |
+
+API note: the channel functions are `chan_send` and `chan_recv`, and JSON
+object reading uses `json_get`. Earlier distribution notes referenced `send`,
+`recv` and `json_parse`, which do not exist in the shipped v1.1.0 binary.
+
+## Documentation
+
+Full documentation, examples and the ecosystem overview are at
+[rudralang.tech](https://rudralang.tech):
+
+- [Getting started](https://rudralang.tech/docs/getting-started)
+- [Language fundamentals](https://rudralang.tech/docs/language-fundamentals)
+- [Standard library](https://rudralang.tech/docs/standard-library)
+- [Compiler guide](https://rudralang.tech/docs/compiler)
+- [Transparency and verification](https://rudralang.tech/transparency)
+
+The website source lives in [`website/`](website/) and is a static Astro site.
+
+## Community and support
+
+- Discussion and help: [GitHub Discussions](https://github.com/rakshanex/rudra/discussions)
+- Bug reports: [GitHub Issues](https://github.com/rakshanex/rudra/issues)
+- Direct support: support@rudralang.tech
+
 ## License
 
-RUDRA is **free to use** — download it and build anything, including commercial
-software, at no charge. The programs and binaries **you** produce are entirely
-yours.
+RUDRA is free to use: download it and build anything, including commercial
+software, at no charge. The programs and binaries you produce are entirely
+yours. The RUDRA toolchain itself is proprietary; the compiler source is not
+public, and the binaries may not be reverse-engineered or resold. See
+[LICENSE](LICENSE) for the full terms.
 
-The RUDRA toolchain itself is proprietary: the compiler **source code is not
-public**, and the binaries may not be reverse-engineered or resold as your own
-product. See [LICENSE](LICENSE) for the full terms.
+## RAKSHANEX Technologies
 
-© 2026 Piyush Kumar / RAKSHANEX TECHNOLOGIES. All rights reserved.
+<p align="left">
+  <img src="assets/branding/rakshanex/rakshanex-eagle.png" alt="RAKSHANEX Technologies" width="90">
+</p>
 
+RUDRA is a product of RAKSHANEX Technologies.
 
-## VS Code Extension
-
-RUDRA has an official VS Code extension (syntax highlighting + live error
-diagnostics), published by **RAKSHANEX TECHNOLOGIES**.
-
-**Install from the Marketplace (easiest):**
-- In VS Code: Extensions (Ctrl+Shift+X) → search **"RUDRA"** → Install
-- Or run:
-  ```bash
-  code --install-extension rakshanex.rudra-lang
-  ```
-- Marketplace page: https://marketplace.visualstudio.com/items?itemName=rakshanex.rudra-lang
-
-The extension uses the `rudra-lsp` binary (included in this toolchain). If it is
-not on your PATH, set `rudra.lspPath` in VS Code settings to its absolute path.
+Copyright 2026 Piyush Kumar / RAKSHANEX Technologies. All rights reserved.
+Powered by RAKSHANEX Technologies.

@@ -1,0 +1,33 @@
+---
+import Docs from "../../layouts/Docs.astro";
+import CodeBlock from "../../components/CodeBlock.astro";
+---
+
+<Docs title="Language Fundamentals" description="The core shape of a RUDRA program: entry point, statements and comments." slug="language-fundamentals">
+  <p class="lead">A RUDRA program is a set of functions. Execution begins at <code>main</code>.</p>
+
+  <h2>Program structure</h2>
+  <CodeBlock code={`fn main() {
+    print("Hello, RUDRA!");
+}`} />
+
+  <h2>Statements</h2>
+  <p>Statements end with a semicolon. Bindings, assignments, function calls and control-flow blocks make up the body of a function.</p>
+
+  <h2>Comments</h2>
+  <p>RUDRA supports line and block comments.</p>
+  <CodeBlock code={`fn main() {
+    print("start");
+    print("end");
+}`} />
+  <p>In your own source you may write <code>// line comment</code> and <code>/* block comment */</code>. This documentation keeps examples comment-free for clarity.</p>
+
+  <h2>Printing</h2>
+  <p>The built-in <code>print</code> writes a value followed by a newline. It accepts strings, integers, floats and booleans.</p>
+  <CodeBlock code={`fn main() {
+    print("text");
+    print(42);
+    print(3.14);
+    print(true);
+}`} />
+</Docs>

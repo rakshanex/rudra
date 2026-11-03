@@ -1,0 +1,62 @@
+---
+import Base from "../layouts/Base.astro";
+import { assets, changelog, releasesPage } from "../data/releases";
+---
+
+<Base title="Downloads" description="Verified RUDRA toolchain downloads with platform, architecture, SHA256 checksums and installation instructions." path="/downloads">
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Downloads</p>
+      <h1>Verified releases</h1>
+      <p class="lead">
+        Every asset below was confirmed against the official GitHub releases.
+        Checksums are the SHA256 digests reported by GitHub for each asset.
+      </p>
+
+      <div class="callout callout-warn" style="margin-top:1.5rem">
+        <h4>About the distributed binaries</h4>
+        <p>
+          The distributed toolchain binaries (rudra, rudrac, ruxpkg, rudra-lsp)
+          are dynamically linked executables. They are distinct from the
+          project's separate self-hosting research compiler. This page does not
+          claim the distributed binaries are statically linked or
+          dependency-free.
+        </p>
+      </div>
+
+      <h2 style="margin-top:2.2rem">Assets</h2>
+      <div class="grid" style="margin-top:1rem">
+        {assets.map((a) => (
+          <div class="card">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem">
+              <h3 style="margin:0">{a.platform} &middot; {a.arch}</h3>
+              <span class="badge badge-planned">{a.release}</span>
+            </div>
+            <p style="font-size:0.92rem;margin:0.5rem 0"><code>{a.file}</code> &middot; {(a.size / 1048576).toFixed(2)} MB &middot; {a.linkage}</p>
+            <p style="font-size:0.8rem;color:var(--text-faint);word-break:break-all;margin:0.3rem 0">SHA256: {a.sha256}</p>
+            <a class="btn btn-primary" href={a.url} rel="noopener" style="margin-top:0.6rem">Download</a>
+          </div>
+        ))}
+      </div>
+
+      <h2 style="margin-top:2.5rem">Verify your download</h2>
+      <pre class="codeblock"><code>sha256sum rudra-linux-x86_64.tar.gz
+# compare the output against the SHA256 listed above</code></pre>
+
+      <h2 style="margin-top:2rem">Install (Linux)</h2>
+      <pre class="codeblock"><code>tar -xzf rudra-linux-x86_64.tar.gz
+cd rudra-linux-x86_64 && ./install.sh
+rudra version</code></pre>
+
+      <h2 style="margin-top:2.5rem">Changelog</h2>
+      {changelog.map((e) => (
+        <div style="margin-top:1rem">
+          <h3 style="margin-bottom:0.3rem">{e.version} <span style="color:var(--text-faint);font-size:0.85rem;font-weight:400">- {e.date}</span></h3>
+          <ul>{e.notes.map((n) => <li>{n}</li>)}</ul>
+        </div>
+      ))}
+
+      <p style="margin-top:2rem">All releases: <a href={releasesPage} rel="noopener">{releasesPage}</a></p>
+    </div>
+  </section>
+</Base>

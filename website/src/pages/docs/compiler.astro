@@ -1,0 +1,40 @@
+---
+import Docs from "../../layouts/Docs.astro";
+import CodeBlock from "../../components/CodeBlock.astro";
+---
+
+<Docs title="Compiler Guide" description="Using the rudrac compiler and the rudra driver." slug="compiler">
+  <p class="lead">RUDRA ships two front-end commands: <code>rudrac</code>, the compiler, and <code>rudra</code>, the project driver.</p>
+
+  <h2>rudrac</h2>
+  <table>
+    <thead><tr><th>Command</th><th>Effect</th></tr></thead>
+    <tbody>
+      <tr><td><code>rudrac file.rux</code></td><td>Compile to a native binary</td></tr>
+      <tr><td><code>rudrac file.rux -o name</code></td><td>Compile and set the output name</td></tr>
+      <tr><td><code>rudrac file.rux --run</code></td><td>Compile and run immediately</td></tr>
+      <tr><td><code>rudrac --version</code></td><td>Show the compiler version</td></tr>
+    </tbody>
+  </table>
+  <CodeBlock lang="sh" code={`rudrac hello.rux --run
+rudrac hello.rux -o hello`} />
+
+  <h2>rudra driver</h2>
+  <table>
+    <thead><tr><th>Command</th><th>Effect</th></tr></thead>
+    <tbody>
+      <tr><td><code>rudra new &lt;name&gt;</code></td><td>Create a new project</td></tr>
+      <tr><td><code>rudra run [file]</code></td><td>Compile and run (default: src/main.rux)</td></tr>
+      <tr><td><code>rudra build [file]</code></td><td>Compile into a native binary</td></tr>
+      <tr><td><code>rudra check [file]</code></td><td>Type-check without building</td></tr>
+      <tr><td><code>rudra clean</code></td><td>Clean the build folder</td></tr>
+      <tr><td><code>rudra doctor</code></td><td>Run an environment check</td></tr>
+      <tr><td><code>rudra version</code></td><td>Show the version</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-info">
+    <h4>Type checking</h4>
+    <p>The compiler reports type errors before building. For example, calling <code>len</code> on an array reports a type error, because <code>len</code> operates on strings.</p>
+  </div>
+</Docs>

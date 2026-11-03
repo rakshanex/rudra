@@ -1,0 +1,72 @@
+---
+import Docs from "../../layouts/Docs.astro";
+import CodeBlock from "../../components/CodeBlock.astro";
+import StatusBadge from "../../components/StatusBadge.astro";
+---
+
+<Docs title="Standard Library" description="Verified built-in functions in the RUDRA 1.1.0 toolchain, with accurate API names and status." slug="standard-library">
+  <p class="lead">This reference lists built-ins confirmed against the shipped RUDRA 1.1.0 binary. Function names and statuses are accurate to the release; see <a href="/transparency">Transparency</a> for the evidence.</p>
+
+  <h2>Core</h2>
+  <table>
+    <thead><tr><th>Function</th><th>Purpose</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td><code>print(v)</code></td><td>Print a value and a newline</td><td><StatusBadge status="VERIFIED" /></td></tr>
+      <tr><td><code>to_str(v)</code></td><td>Convert a value to a string</td><td><StatusBadge status="VERIFIED" /></td></tr>
+      <tr><td><code>len(s)</code></td><td>Length of a string</td><td><StatusBadge status="VERIFIED" /></td></tr>
+    </tbody>
+  </table>
+
+  <h2>Concurrency</h2>
+  <table>
+    <thead><tr><th>Function</th><th>Purpose</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td><code>spawn(fn, arg)</code></td><td>Run a function on an OS thread</td><td><StatusBadge status="VERIFIED" /></td></tr>
+      <tr><td><code>mutex_new()</code>, <code>lock(m)</code>, <code>unlock(m)</code></td><td>Mutual exclusion</td><td><StatusBadge status="PARTIALLY VERIFIED" /></td></tr>
+      <tr><td><code>chan_new()</code>, <code>chan_send(c, v)</code>, <code>chan_recv(c)</code></td><td>Channels for message passing</td><td><StatusBadge status="PARTIALLY VERIFIED" /></td></tr>
+    </tbody>
+  </table>
+  <CodeBlock code={`fn worker(x: int) {
+    print(x);
+}
+fn main() {
+    spawn(worker, 42);
+    let c = chan_new();
+    chan_send(c, 7);
+    print(chan_recv(c));
+}`} />
+  <div class="callout callout-warn">
+    <h4>API note</h4>
+    <p>The channel functions are <code>chan_send</code> and <code>chan_recv</code>. Functions named <code>send</code> and <code>recv</code> do not exist in the shipped binary.</p>
+  </div>
+
+  <h2>Networking</h2>
+  <table>
+    <thead><tr><th>Function</th><th>Purpose</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td><code>http_get(url)</code></td><td>HTTP GET over TCP</td><td><StatusBadge status="PARTIALLY VERIFIED" /></td></tr>
+    </tbody>
+  </table>
+  <div class="callout callout-warn">
+    <h4>Networking limits</h4>
+    <p><code>http_get</code> opens a real TCP connection but requires a numeric IP address. Hostname resolution (DNS) is not implemented, and HTTPS/TLS is not implemented.</p>
+  </div>
+
+  <h2>JSON</h2>
+  <table>
+    <thead><tr><th>Function</th><th>Purpose</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td><code>json_get(text, key)</code></td><td>Read a value from a JSON object</td><td><StatusBadge status="PARTIALLY VERIFIED" /></td></tr>
+    </tbody>
+  </table>
+  <CodeBlock code={`fn main() {
+    print(json_get("{\\"a\\": 42}", "a"));
+}`} />
+  <div class="callout callout-warn">
+    <h4>API note</h4>
+    <p>A function named <code>json_parse</code> does not exist in the shipped binary. JSON object reading is done with <code>json_get</code>.</p>
+  </div>
+
+  <h2>Time</h2>
+  <p>Time builtins <code>hour</code>, <code>minute</code>, <code>second</code> and <code>year</code> are documented in the release notes.</p>
+</Docs>

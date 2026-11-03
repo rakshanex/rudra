@@ -1,0 +1,40 @@
+---
+import Base from "../../layouts/Base.astro";
+import StatusBadge from "../../components/StatusBadge.astro";
+import { components } from "../../data/ecosystem";
+
+export function getStaticPaths() {
+  return components.map((c) => ({ params: { slug: c.slug }, props: { component: c } }));
+}
+
+const { component } = Astro.props;
+---
+
+<Base title={component.name} description={component.description} path={`/ecosystem/${component.slug}`}>
+  <section class="section">
+    <div class="container" style="max-width:760px">
+      <p class="eyebrow">Ecosystem component</p>
+      <div style="display:flex;align-items:center;gap:0.8rem;flex-wrap:wrap">
+        <h1 style="margin:0">{component.name}</h1>
+        <StatusBadge status={component.status} />
+      </div>
+      <p class="lead" style="margin-top:0.8rem">{component.tagline}</p>
+
+      <p style="margin-top:1.5rem">{component.description}</p>
+
+      <h2 style="margin-top:2rem">Details</h2>
+      <ul>
+        {component.details.map((d) => <li>{d}</li>)}
+      </ul>
+
+      {component.note && (
+        <div class="callout callout-warn" style="margin-top:1.5rem">
+          <h4>Note</h4>
+          <p>{component.note}</p>
+        </div>
+      )}
+
+      <p style="margin-top:2rem"><a href="/ecosystem">Back to all components</a> &middot; <a href="/transparency">Verification evidence</a></p>
+    </div>
+  </section>
+</Base>

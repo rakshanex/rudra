@@ -1,0 +1,34 @@
+---
+import { mainNav, githubRepo } from "../data/nav";
+---
+
+<header class="site-header">
+  <div class="container">
+    <nav class="nav" data-nav>
+      <a class="nav-brand" href="/">
+        <img src="/rudra-phoenix.png" alt="RUDRA phoenix logo" width="30" height="30" />
+        <span>RUDRA</span>
+      </a>
+      <div class="nav-links">
+        {mainNav.map((item) => <a href={item.href}>{item.label}</a>)}
+      </div>
+      <div class="nav-cta">
+        <a class="btn btn-ghost" href={githubRepo} rel="noopener">GitHub</a>
+        <a class="btn btn-primary" href="/downloads">Download</a>
+      </div>
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" data-toggle>Menu</button>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const nav = document.querySelector("[data-nav]");
+  const toggle = document.querySelector("[data-toggle]");
+  if (nav && toggle) {
+    toggle.addEventListener("click", () => {
+      const open = nav.getAttribute("data-open") === "true";
+      nav.setAttribute("data-open", String(!open));
+      toggle.setAttribute("aria-expanded", String(!open));
+    });
+  }
+</script>

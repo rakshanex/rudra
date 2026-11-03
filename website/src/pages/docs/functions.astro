@@ -1,0 +1,51 @@
+---
+import Docs from "../../layouts/Docs.astro";
+import CodeBlock from "../../components/CodeBlock.astro";
+---
+
+<Docs title="Functions" description="Defining functions with parameters, return types and recursion in RUDRA." slug="functions">
+  <p class="lead">Functions are declared with <code>fn</code>. Parameters are typed, and a return type is written after an arrow.</p>
+
+  <h2>Parameters and return types</h2>
+  <CodeBlock code={`fn add(a: int, b: int) -> int {
+    return a + b;
+}
+fn main() {
+    print(add(2, 3));
+}`} />
+
+  <h2>Returning early</h2>
+  <CodeBlock code={`fn classify(n: int) -> str {
+    if n > 0 {
+        return "positive";
+    } else if n < 0 {
+        return "negative";
+    } else {
+        return "zero";
+    }
+}
+fn main() {
+    print(classify(-4));
+}`} />
+
+  <h2>Recursion</h2>
+  <CodeBlock code={`fn factorial(n: int) -> int {
+    if n <= 1 {
+        return 1;
+    }
+    return n * factorial(n - 1);
+}
+fn main() {
+    print(factorial(5));
+}`} />
+  <p>This program prints <code>120</code>.</p>
+
+  <h2>Procedures</h2>
+  <p>A function without a return type performs work without producing a value.</p>
+  <CodeBlock code={`fn greet(name: str) {
+    print("Hello, " + name);
+}
+fn main() {
+    greet("RUDRA");
+}`} />
+</Docs>

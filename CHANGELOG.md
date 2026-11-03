@@ -2,6 +2,13 @@
 
 Distribution changelog for the RUDRA toolchain binaries.
 
+> Accuracy note (2026-11-03): the v1.1.0 entry below is preserved as originally
+> written. Independent verification of the shipped v1.1.0 binary corrected two
+> points: the channel functions are `chan_send` and `chan_recv` (not `send` and
+> `recv`), JSON object reading uses `json_get` (there is no `json_parse`), and
+> the distributed binaries are dynamically linked. See
+> https://rudralang.tech/transparency for the full evidence.
+
 ## [1.1.0] - 2026-10-01
 
 The **concurrency, networking, and JSON** release — all on RUDRA's
