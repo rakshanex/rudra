@@ -4,7 +4,7 @@
 
 <h1 align="center">RUDRA</h1>
 
-<p align="center"><strong>A fast, safe, self-contained systems language.</strong></p>
+<p align="center"><strong>A fast, safe, compiled systems language with a native backend.</strong></p>
 
 <p align="center">
   <a href="https://rudralang.tech">rudralang.tech</a> ·
@@ -104,7 +104,7 @@ Full documentation, examples and the ecosystem overview are at
 - [Compiler guide](https://rudralang.tech/docs/compiler)
 - [Transparency and verification](https://rudralang.tech/transparency)
 
-The website source lives in [`website/`](website/) and is a static Astro site.
+The website source lives in [`site/`](site/). It is written in RUDRA (`.rux`), and `site/gen.rux` generates a static site with no JavaScript. See [`site/README.md`](site/README.md).
 
 ## Community and support
 

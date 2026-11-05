@@ -1,0 +1,70 @@
+fn site_origin() -> str { return "https://rudralang.tech"; }
+fn esc_attr(s: str) -> str {
+    let mut out: str = "";
+    let n: int = str_len(s);
+    let mut start: int = 0;
+    let mut i: int = 0;
+    while i < n {
+        let c: int = str_byte(s, i);
+        let mut rep: str = "";
+        if c == 38 { rep = "&amp;"; }
+        if c == 34 { rep = "&quot;"; }
+        if c == 60 { rep = "&lt;"; }
+        if c == 62 { rep = "&gt;"; }
+        if str_len(rep) > 0 {
+            out = out + substr(s, start, i - start) + rep;
+            start = i + 1;
+        }
+        i = i + 1;
+    }
+    return out + substr(s, start, n - start);
+}
+fn canonical_path(path: str) -> str {
+    if str_eq(path, "/404") { return "/404.html"; }
+    return path;
+}
+fn page_head(path: str, title: str, desc: str) -> str {
+    let t: str = esc_attr(title);
+    let d: str = esc_attr(desc);
+    let url: str = site_origin() + canonical_path(path);
+    let mut h: str = "<head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">";
+    h = h + "<meta name=\"color-scheme\" content=\"dark light\">";
+    h = h + "<title>" + t + "</title><meta name=\"description\" content=\"" + d + "\">";
+    h = h + "<meta name=\"google-site-verification\" content=\"Djd9LOcOm8GTo-hSV89tsQ4pUF02oSTkJHGocseXnbA\">";
+    h = h + "<link rel=\"canonical\" href=\"" + url + "\">";
+    h = h + "<link rel=\"icon\" href=\"/favicon.png\" sizes=\"48x48\" type=\"image/png\"><link rel=\"icon\" href=\"/favicon-32.png\" sizes=\"32x32\" type=\"image/png\"><link rel=\"icon\" href=\"/favicon-16.png\" sizes=\"16x16\" type=\"image/png\"><link rel=\"apple-touch-icon\" href=\"/apple-touch-icon.png\">";
+    h = h + "<meta property=\"og:type\" content=\"website\"><meta property=\"og:title\" content=\"" + t + "\"><meta property=\"og:description\" content=\"" + d + "\"><meta property=\"og:url\" content=\"" + url + "\"><meta property=\"og:image\" content=\"" + site_origin() + "/rudra-phoenix-512.png\"><meta property=\"og:site_name\" content=\"RUDRA\">";
+    h = h + "<meta name=\"twitter:card\" content=\"summary\"><meta name=\"twitter:title\" content=\"" + t + "\"><meta name=\"twitter:description\" content=\"" + d + "\">";
+    h = h + "<meta name=\"theme-color\" content=\"#060810\">";
+    h = h + "<script type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"SoftwareApplication\",\"name\":\"RUDRA\",\"applicationCategory\":\"DeveloperApplication\",\"operatingSystem\":\"Linux\",\"offers\":{\"@type\":\"Offer\",\"price\":\"0\",\"priceCurrency\":\"USD\"},\"publisher\":{\"@type\":\"Organization\",\"name\":\"RAKSHANEX Technologies\"},\"url\":\"https://rudralang.tech\"}</script>";
+    h = h + "<link rel=\"stylesheet\" href=\"/style.css\"></head>";
+    return h;
+}
+fn page_header() -> str {
+    let mut h: str = "<header class=\"site-header\"> <div class=\"container\"> <nav class=\"nav\"> <a class=\"nav-brand\" href=\"/\"> <img src=\"/rudra-phoenix-512.webp\" alt=\"RUDRA phoenix logo\" width=\"32\" height=\"32\"> <span>RUDRA</span> </a>";
+    h = h + " <div class=\"nav-links\"> <a href=\"/features\">Features</a><a href=\"/ecosystem\">Ecosystem</a><a href=\"https://docs.rudralang.tech/\">Docs</a><a href=\"/playground\">Playground</a><a href=\"https://download.rudralang.tech/\">Downloads</a><a href=\"/roadmap\">Roadmap</a><a href=\"/transparency\">Transparency</a><a href=\"/community\">Community</a> </div>";
+    h = h + " <div class=\"nav-cta\"> <a class=\"icon-btn\" href=\"/search/\" aria-label=\"Search the site\"> <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"11\" cy=\"11\" r=\"7\"></circle><path d=\"M21 21l-4-4\"></path></svg> </a>";
+    h = h + " <a class=\"btn btn-ghost\" href=\"https://github.com/rakshanex/rudra\" rel=\"noopener\">GitHub</a> <a class=\"btn btn-primary\" href=\"https://download.rudralang.tech/\">Download</a> </div> </nav> </div> </header>";
+    return h;
+}
+fn page_footer() -> str {
+    let mut f: str = "<footer class=\"footer\"> <div class=\"container\"> <div class=\"footer-grid\"> <div> <div class=\"nav-brand\" style=\"margin-bottom:0.8rem\"> <img src=\"/rudra-phoenix-512.webp\" alt=\"RUDRA phoenix logo\" width=\"32\" height=\"32\"> <span>RUDRA</span> </div> <p style=\"font-size:0.9rem;max-width:32ch\">A compiled systems language with a native backend. Code, build, secure.</p> <a href=\"mailto:support@rudralang.tech\" style=\"font-size:0.88rem\">support@rudralang.tech</a> </div>";
+    f = f + " <div> <h4>Product</h4> <a href=\"/features\">Features</a> <a href=\"/ecosystem\">Ecosystem</a> <a href=\"https://download.rudralang.tech/\">Downloads</a> <a href=\"/roadmap\">Roadmap</a> </div>";
+    f = f + " <div> <h4>Developers</h4> <a href=\"https://docs.rudralang.tech/\">Documentation</a> <a href=\"/developers\">Developer Hub</a> <a href=\"https://github.com/rakshanex/rudra\" rel=\"noopener\">GitHub</a> <a href=\"https://github.com/rakshanex/rudra/issues\" rel=\"noopener\">Report an Issue</a> </div>";
+    f = f + " <div> <h4>Community</h4> <a href=\"/community\">Community</a> <a href=\"https://github.com/rakshanex/rudra/discussions\" rel=\"noopener\">Discussions</a> <a href=\"https://github.com/rakshanex/rudra/releases\" rel=\"noopener\">Releases</a> <a href=\"/transparency\">Transparency</a> </div>";
+    f = f + " <div> <h4>Company</h4> <a href=\"/about\">About</a> <a href=\"/rakshanex\">RAKSHANEX</a> <a href=\"/contact\">Contact</a> <a href=\"/security\">Security</a> <a href=\"/privacy\">Privacy</a> <a href=\"/terms\">Terms</a> </div> </div>";
+    f = f + " <div class=\"footer-bottom\"> <span>Copyright 2026 Piyush Kumar / RAKSHANEX Technologies. All rights reserved. Built with RUDRA, no JavaScript.</span> <a href=\"/rakshanex\" style=\"display:inline-flex;align-items:center;gap:0.5rem;color:var(--text-dim)\"> <img src=\"/rakshanex-logo.png\" alt=\"RAKSHANEX Technologies logo\" width=\"22\" height=\"22\" style=\"border-radius:5px\"> <span>Powered by RAKSHANEX Technologies</span> </a> </div> </div> </footer>";
+    return f;
+}
+fn page_html(path: str, title: str, desc: str, body: str) -> str {
+    return "<!DOCTYPE html><html lang=\"en\">" + page_head(path, title, desc) + "<body>" + page_header() + " " + body + " " + page_footer() + "</body></html>\n";
+}
+fn search_item(path: str, title: str, desc: str) -> str {
+    return "<li><a href=\"" + path + "\"><strong>" + esc_attr(title) + "</strong><span>" + esc_attr(desc) + "</span></a></li>";
+}
+fn search_page(items: str) -> str {
+    let mut b: str = "<main id=\"main\"> <section class=\"section\"> <div class=\"container\" style=\"max-width:820px\"> <p class=\"eyebrow\">Search</p> <h1>All pages</h1>";
+    b = b + " <p class=\"lead\">Every page on this site, with a short description. Use your browser's find-in-page (Ctrl+F) to search this list.</p>";
+    b = b + " <ul class=\"search-results\" style=\"margin-top:1.6rem\">" + items + "</ul> </div> </section> </main>";
+    return b;
+}
