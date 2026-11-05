@@ -1,0 +1,178 @@
+import "fs";
+import "routes";
+fn find_from(hay: str, needle: str, start: int) -> int {
+    let n: int = str_len(hay);
+    let m: int = str_len(needle);
+    let mut i: int = start;
+    while i + m <= n {
+        let mut j: int = 0;
+        let mut ok: int = 1;
+        while j < m {
+            if str_byte(hay, i + j) != str_byte(needle, j) { ok = 0; j = m; }
+            j = j + 1;
+        }
+        if ok == 1 { return i; }
+        i = i + 1;
+    }
+    return 0 - 1;
+}
+fn lower(c: int) -> int {
+    if c >= 65 { if c <= 90 { return c + 32; } }
+    return c;
+}
+fn starts_ci(s: str, at: int, pat: str) -> bool {
+    if at + str_len(pat) > str_len(s) { return false; }
+    let mut i: int = 0;
+    while i < str_len(pat) {
+        if lower(str_byte(s, at + i)) != str_byte(pat, i) { return false; }
+        i = i + 1;
+    }
+    return true;
+}
+fn target_exists(out: str, url: str) -> bool {
+    let n: int = str_len(url);
+    let mut end: int = n;
+    let mut i: int = 0;
+    while i < n {
+        let c: int = str_byte(url, i);
+        if c == 35 || c == 63 { if end == n { end = i; } }
+        i = i + 1;
+    }
+    let path: str = substr(url, 0, end);
+    if str_len(path) == 0 { return true; }
+    let full: str = out + path;
+    if fs_exists(full) { if fs_is_dir(full) == false { return true; } }
+    return fs_exists(fs_join(full, "index.html"));
+}
+fn check_page(out: str, file: str) -> int {
+    let s: str = read_file(file);
+    let n: int = str_len(s);
+    let mut bad: int = 0;
+    let mut i: int = 0;
+    while i < n {
+        if str_byte(s, i) == 60 {
+            if starts_ci(s, i, "<script") {
+                let mk1: int = heap_mark();
+                let close: int = find_from(s, ">", i);
+                let tag: str = substr(s, i, close - i);
+                if find_from(tag, "application/ld+json", 0) < 0 {
+                    print("FAIL " + file + ": executable script tag\n");
+                    bad = bad + 1;
+                }
+                heap_reset(mk1);
+            }
+        }
+        if str_byte(s, i) == 32 {
+            if starts_ci(s, i + 1, "on") {
+                let mut k: int = i + 3;
+                while k < n {
+                    let c: int = lower(str_byte(s, k));
+                    if c >= 97 { if c <= 122 { k = k + 1; continue; } }
+                    break;
+                }
+                if k > i + 3 { if k < n { if str_byte(s, k) == 61 {
+                    if k > 0 {
+                        print("FAIL " + file + ": inline event handler\n");
+                        bad = bad + 1;
+                    }
+                } } }
+            }
+        }
+        if starts_ci(s, i, "javascript:") {
+            print("FAIL " + file + ": javascript: URL\n");
+            bad = bad + 1;
+        }
+        if starts_ci(s, i, "href=\"/") || starts_ci(s, i, "src=\"/") {
+            let mk2: int = heap_mark();
+            let q: int = find_from(s, "\"", i) + 1;
+            let e: int = find_from(s, "\"", q);
+            let url: str = substr(s, q, e - q);
+            let mut skip: int = 0;
+            if starts_ci(url, 0, "//") { skip = 1; }
+            if starts_ci(url, 0, "/auth/") { skip = 1; }
+            if starts_ci(url, 0, "/api/") { skip = 1; }
+            if skip == 0 {
+                if target_exists(out, url) == false {
+                    print("FAIL " + file + ": broken link " + url + "\n");
+                    bad = bad + 1;
+                }
+            }
+            heap_reset(mk2);
+        }
+        i = i + 1;
+    }
+    return bad;
+}
+fn walk(out: str, dir: str) -> list[int] {
+    let counts: list[int] = list_new();
+    push(counts, 0);
+    push(counts, 0);
+    let files: list[str] = fs_list_files(dir);
+    let mut i: int = 0;
+    while i < list_len(files) {
+        let mk: int = heap_mark();
+        let name: str = get(files, i);
+        let mut b: int = 0;
+        let mut h: int = 0;
+        if fs_ends_with(name, ".js") || fs_ends_with(name, ".mjs") {
+            print("FAIL JavaScript file " + fs_join(dir, name) + "\n");
+            b = 1;
+        }
+        if fs_ends_with(name, ".html") {
+            b = b + check_page(out, fs_join(dir, name));
+            h = 1;
+        }
+        heap_reset(mk);
+        set(counts, 0, get(counts, 0) + b);
+        set(counts, 1, get(counts, 1) + h);
+        i = i + 1;
+    }
+    let dirs: list[str] = fs_list_dirs(dir);
+    let mut d: int = 0;
+    while d < list_len(dirs) {
+        let mk: int = heap_mark();
+        let sub: list[int] = walk(out, fs_join(dir, get(dirs, d)));
+        let sb: int = get(sub, 0);
+        let sh: int = get(sub, 1);
+        heap_reset(mk);
+        set(counts, 0, get(counts, 0) + sb);
+        set(counts, 1, get(counts, 1) + sh);
+        d = d + 1;
+    }
+    return counts;
+}
+fn main() -> int {
+    let mut out: str = "dist";
+    if arg_count() >= 2 { out = arg(1); }
+    let table: str = route_table();
+    let mut missing: int = 0;
+    let mut routes: int = 0;
+    let n: int = str_len(table);
+    let mut start: int = 0;
+    let mut i: int = 0;
+    while i < n {
+        if str_byte(table, i) == 10 {
+            let mk: int = heap_mark();
+            let line: str = substr(table, start, i - start);
+            let tab: int = find_from(line, "\t", 0);
+            let path: str = substr(line, 0, tab);
+            let mut file: str = out + path + "index.html";
+            if str_eq(path, "/") { file = fs_join(out, "index.html"); }
+            if str_eq(path, "/404") { file = fs_join(out, "404.html"); }
+            if fs_exists(file) == false {
+                print("FAIL missing page for route " + path + "\n");
+                missing = missing + 1;
+            }
+            heap_reset(mk);
+            routes = routes + 1;
+            start = i + 1;
+        }
+        i = i + 1;
+    }
+    let counts: list[int] = walk(out, out);
+    let bad: int = missing + get(counts, 0);
+    print("routes " + to_str(routes) + " html files " + to_str(get(counts, 1)) + " problems " + to_str(bad) + "\n");
+    if bad == 0 { print("SITE_CHECK_PASSED\n"); }
+    return bad;
+}
+return main();

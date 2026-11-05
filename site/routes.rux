@@ -1,0 +1,65 @@
+import "content_0";
+import "content_1";
+import "content_2";
+import "content_3";
+fn route_table() -> str {
+    return "/404\tPage not found - RUDRA\tThe page you requested could not be found.\n/about/\tAbout RUDRA - RUDRA\tRUDRA's philosophy, design goals and the ecosystem around the language.\n/account/\tAccount - RUDRA\tThe RUDRA website has no user accounts.\n/community/\tCommunity - RUDRA\tThe RUDRA community runs on GitHub Discussions: profiles, threads, search, reactions and moderation provided by GitHub.\n/contact/\tContact and Support - RUDRA\tHow to get help with RUDRA: support email, GitHub Discussions and issue tracking.\n/developers/\tDeveloper Hub - RUDRA\tResources for building with RUDRA: getting started, contribution guidance, GitHub integration and release information.\n/docs/compiler/\tCompiler Guide - RUDRA\tCompile RUDRA programs with ruxc and the rudra wrapper in the 1.1.0 release.\n/docs/control-flow/\tControl Flow - RUDRA\tConditionals and loops in RUDRA: if, while, for, break and continue.\n/docs/examples/\tExamples - RUDRA\tComplete, verified RUDRA programs.\n/docs/faq/\tFAQ - RUDRA\tFrequently asked questions about RUDRA.\n/docs/functions/\tFunctions - RUDRA\tDefining functions with parameters, return types and recursion in RUDRA.\n/docs/getting-started/\tGetting Started - RUDRA\tInstall RUDRA, compile your first program and run it.\n/docs/installation/\tInstallation - RUDRA\tInstall the self-hosted RUDRA 1.1.0 toolchain on Linux x86-64 from the tarball or the .deb package.\n/docs/language-fundamentals/\tLanguage Fundamentals - RUDRA\tThe core shape of a RUDRA program: entry point, statements and comments.\n/docs/modules/\tModules and Projects - RUDRA\tCreate and run a RUDRA project with the driver.\n/docs/standard-library/\tStandard Library - RUDRA\tThe built-in functions and standard-library modules of the self-hosted RUDRA 1.1.0 compiler, with real API names.\n/docs/structs-and-enums/\tStructs and Enums - RUDRA\tGrouping data with structs, and modeling choices with enums and match.\n/docs/troubleshooting/\tTroubleshooting - RUDRA\tCommon problems and how to resolve them when using RUDRA.\n/docs/variables-and-types/\tVariables and Types - RUDRA\tBindings, mutability and the core RUDRA types.\n/downloads/\tDownloads - RUDRA\tVerified RUDRA toolchain downloads with platform, architecture, SHA256 checksums and installation instructions.\n/ecosystem/ai-integration/\tAI Integration - RUDRA\tAI integration is a planned direction for the RUDRA ecosystem: assistance for writing, explaining and reviewing RUDRA code, surfaced through the toolchain and editor tooling. No AI-integration capability ships in the audited v1.1.0 distribution, so it is marked as planned rather than available.\n/ecosystem/compiler/\tCompiler - RUDRA\truxc, the self-hosted RUDRA compiler written in RUDRA, turns a .rux file into a native Linux executable. It is a static ELF with no runtime dependencies.\n/ecosystem/\tEcosystem - RUDRA\tThe RUDRA ecosystem: language, compiler, runtime, standard library, Ruxel Studio, toolchain, AI integration and security capabilities.\n/ecosystem/language/\tRUDRA Language - RUDRA\tRUDRA is a statically typed, compiled programming language. Programs are written in .rux source files and compiled to native executables.\n/ecosystem/runtime/\tRuntime - RUDRA\tRUDRA programs run as native static Linux processes with bounds-checked lists and trapping division by zero. Concurrency is provided by standard-library modules.\n/ecosystem/ruxel-studio/\tRuxel Studio - RUDRA\tRuxel Studio is a terminal IDE for RUDRA, written in RUDRA. It is in the source repository and is not part of the 1.1.0 release.\n/ecosystem/security/\tSecurity Capabilities - RUDRA\tRUDRA is designed around memory safety. Capability-level security claims on this site are limited to what has been independently observed.\n/ecosystem/standard-library/\tStandard Library - RUDRA\tThe 1.1.0 release ships 68 standard-library modules written in RUDRA, covering strings, lists, math, time, files, processes, networking, JSON and cryptography.\n/ecosystem/toolchain/\tDeveloper Toolchain - RUDRA\tThe 1.1.0 release ships ruxc (compiler) and a rudra wrapper. A new driver, language server, formatter and package tool are in the source repository.\n/features/\tFeatures - RUDRA\tRUDRA language and toolchain capabilities, each labeled with an accurate verification status and evidence.\n/\tRUDRA - A Platform for the Future\tRUDRA is a compiled, statically typed systems language whose compiler is written in RUDRA. Download the toolchain, read the docs, and build native executables.\n/login/\tNo accounts - RUDRA\tThe RUDRA website has no sign-in. Use GitHub for issues and discussions.\n/playground/\tPlayground - RUDRA\tExplore verified RUDRA sample programs with their real output. Running your own code requires the installed RUDRA toolchain.\n/privacy/\tPrivacy Policy - RUDRA\tHow rudralang.tech handles data. This is a static website with no accounts and no tracking.\n/rakshanex/\tRAKSHANEX Technologies - RUDRA\tRAKSHANEX Technologies is the parent organization behind RUDRA.\n/roadmap/\tRoadmap - RUDRA\tRUDRA development status: verified stable, partially verified, and planned capabilities.\n/security/\tSecurity Policy - RUDRA\tHow to report security issues in RUDRA and what to expect.\n/terms/\tTerms of Use - RUDRA\tTerms governing use of the rudralang.tech website and the RUDRA toolchain.\n/transparency/\tTransparency - RUDRA\tThe exact verified feature matrix for the RUDRA v1.1.0 toolchain, with evidence and honest limitations.\n";
+}
+fn route_body_0(i: int) -> str {
+    if i == 0 { return page_404(); }
+    if i == 1 { return page_about(); }
+    if i == 2 { return page_account(); }
+    if i == 3 { return page_community(); }
+    if i == 4 { return page_contact(); }
+    if i == 5 { return page_developers(); }
+    if i == 6 { return page_docs_compiler(); }
+    if i == 7 { return page_docs_control_flow(); }
+    if i == 8 { return page_docs_examples(); }
+    if i == 9 { return page_docs_faq(); }
+    return "";
+}
+fn route_body_1(i: int) -> str {
+    if i == 10 { return page_docs_functions(); }
+    if i == 11 { return page_docs_getting_started(); }
+    if i == 12 { return page_docs_installation(); }
+    if i == 13 { return page_docs_language_fundamentals(); }
+    if i == 14 { return page_docs_modules(); }
+    if i == 15 { return page_docs_standard_library(); }
+    if i == 16 { return page_docs_structs_and_enums(); }
+    if i == 17 { return page_docs_troubleshooting(); }
+    if i == 18 { return page_docs_variables_and_types(); }
+    if i == 19 { return page_downloads(); }
+    return "";
+}
+fn route_body_2(i: int) -> str {
+    if i == 20 { return page_ecosystem_ai_integration(); }
+    if i == 21 { return page_ecosystem_compiler(); }
+    if i == 22 { return page_ecosystem(); }
+    if i == 23 { return page_ecosystem_language(); }
+    if i == 24 { return page_ecosystem_runtime(); }
+    if i == 25 { return page_ecosystem_ruxel_studio(); }
+    if i == 26 { return page_ecosystem_security(); }
+    if i == 27 { return page_ecosystem_standard_library(); }
+    if i == 28 { return page_ecosystem_toolchain(); }
+    if i == 29 { return page_features(); }
+    return "";
+}
+fn route_body_3(i: int) -> str {
+    if i == 30 { return page_home(); }
+    if i == 31 { return page_login(); }
+    if i == 32 { return page_playground(); }
+    if i == 33 { return page_privacy(); }
+    if i == 34 { return page_rakshanex(); }
+    if i == 35 { return page_roadmap(); }
+    if i == 36 { return page_security(); }
+    if i == 37 { return page_terms(); }
+    if i == 38 { return page_transparency(); }
+    return "";
+}
+fn route_body(i: int) -> str {
+    if i < 10 { return route_body_0(i); }
+    if i < 20 { return route_body_1(i); }
+    if i < 30 { return route_body_2(i); }
+    if i < 40 { return route_body_3(i); }
+    return "";
+}
