@@ -75,6 +75,7 @@ fn main() -> int {
     write_text(fs_join(out, "sitemap.xml"), sitemap);
     write_text(fs_join(out, "robots.txt"), "User-agent: *\nAllow: /\n\nSitemap: https://rudralang.tech/sitemap.xml\n");
     write_text(fs_join(out, "CNAME"), "rudralang.tech\n");
+    write_text(fs_join(out, "_redirects"), "/docs /docs/getting-started/ 301\n/docs/ /docs/getting-started/ 301\n");
     write_text(fs_join(out, "_headers"), "/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  X-Frame-Options: DENY\n  Content-Security-Policy: default-src 'self'; script-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'\n");
     write_text(fs_join(out, "googlede6070be797f73c9.html"), "google-site-verification: googlede6070be797f73c9.html");
     let copied: int = fs_copy_suffix(assets, out, ".png") + fs_copy_suffix(assets, out, ".webp");
