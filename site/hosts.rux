@@ -1,0 +1,135 @@
+fn hs_starts(s: str, pre: str) -> bool {
+    if str_len(pre) > str_len(s) { return false; }
+    return str_eq(substr(s, 0, str_len(pre)), pre);
+}
+fn hs_find(s: str, needle: str, from: int) -> int {
+    let n: int = str_len(s);
+    let m: int = str_len(needle);
+    let mut i: int = from;
+    while i + m <= n {
+        let mut j: int = 0;
+        let mut ok: int = 1;
+        while j < m {
+            if str_byte(s, i + j) != str_byte(needle, j) { ok = 0; j = m; }
+            j = j + 1;
+        }
+        if ok == 1 { return i; }
+        i = i + 1;
+    }
+    return 0 - 1;
+}
+fn host_names() -> list[str] {
+    let h: list[str] = list_new();
+    push(h, "main");
+    push(h, "docs");
+    push(h, "download");
+    push(h, "playground");
+    push(h, "status");
+    push(h, "benchmarks");
+    return h;
+}
+fn host_of(path: str) -> str {
+    if hs_starts(path, "/docs/") { return "docs"; }
+    if str_eq(path, "/downloads/") { return "download"; }
+    if str_eq(path, "/playground/") { return "playground"; }
+    if str_eq(path, "/status/") { return "status"; }
+    if str_eq(path, "/benchmarks/") { return "benchmarks"; }
+    return "main";
+}
+fn host_origin(host: str) -> str {
+    if str_eq(host, "main") { return "https://rudralang.tech"; }
+    return "https://" + host + ".rudralang.tech";
+}
+fn host_domain(host: str) -> str {
+    if str_eq(host, "main") { return "rudralang.tech"; }
+    return host + ".rudralang.tech";
+}
+fn host_local(path: str) -> str {
+    let h: str = host_of(path);
+    if str_eq(h, "docs") {
+        if str_eq(path, "/docs/getting-started/") { return "/"; }
+        return substr(path, 5, str_len(path) - 5);
+    }
+    if str_eq(h, "main") { return path; }
+    return "/";
+}
+fn hs_is_route(path: str) -> bool {
+    let n: int = str_len(path);
+    if n == 0 { return false; }
+    let mut i: int = n - 1;
+    while i >= 0 {
+        let c: int = str_byte(path, i);
+        if c == 47 { return true; }
+        if c == 46 { return false; }
+        i = i - 1;
+    }
+    return true;
+}
+fn hs_norm(path: str) -> str {
+    if str_byte(path, str_len(path) - 1) == 47 { return path; }
+    return path + "/";
+}
+fn hs_map(url: str, cur: str, force_abs: bool) -> str {
+    let n: int = str_len(url);
+    let mut cut: int = n;
+    let mut i: int = 0;
+    while i < n {
+        let c: int = str_byte(url, i);
+        if c == 35 || c == 63 { if cut == n { cut = i; } }
+        i = i + 1;
+    }
+    let path: str = substr(url, 0, cut);
+    let rest: str = substr(url, cut, n - cut);
+    if str_len(path) == 0 { return url; }
+    if hs_is_route(path) == false {
+        if force_abs { return host_origin(cur) + url; }
+        return url;
+    }
+    let p: str = hs_norm(path);
+    let h: str = host_of(p);
+    if str_eq(h, cur) && force_abs == false { return host_local(p) + rest; }
+    return host_origin(h) + host_local(p) + rest;
+}
+fn hs_rewrite(html: str, cur: str) -> str {
+    let n: int = str_len(html);
+    let mut out: str = "";
+    let mut run: int = 0;
+    let mut i: int = 0;
+    while i < n {
+        let mut hit: int = 0;
+        let mut q: int = 0;
+        let mut abs: bool = false;
+        let mut from: int = 0;
+        if str_byte(html, i) == 104 {
+            if hs_starts(substr(html, i, 7), "href=\"/") {
+                if i + 7 < n {
+                    if str_byte(html, i + 7) != 47 { hit = 1; q = i + 6; from = q; }
+                }
+            }
+        }
+        if str_byte(html, i) == 34 {
+            if hs_starts(substr(html, i, 24), "\"https://rudralang.tech/") { hit = 1; q = i + 23; abs = true; from = i + 1; }
+        }
+        if hit == 1 {
+            let e: int = hs_find(html, "\"", q);
+            if e > q {
+                let url: str = substr(html, q, e - q);
+                let mut mapped: str = "";
+                if abs {
+                    if hs_is_route(url) { mapped = hs_map(url, "main", true); } else { mapped = "https://rudralang.tech" + url; }
+                } else {
+                    mapped = hs_map(url, cur, false);
+                }
+                out = out + substr(html, run, from - run) + mapped;
+                run = e;
+                i = e;
+            } else {
+                i = i + 1;
+            }
+        } else {
+            i = i + 1;
+        }
+    }
+    if run == 0 { return html; }
+    return out + substr(html, run, n - run);
+}

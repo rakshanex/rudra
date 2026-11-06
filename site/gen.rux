@@ -2,6 +2,7 @@ import "fs";
 import "layout";
 import "routes";
 import "style";
+import "hosts";
 fn str_bb(s: str) -> int {
     let b: int = bb_new();
     let n: int = str_len(s);
@@ -38,12 +39,17 @@ fn out_file(out: str, path: str) -> str {
     fs_mkdir_all(dir, 493);
     return fs_join(dir, "index.html");
 }
+fn hdir(out: str, host: str) -> str {
+    return fs_join(out, host);
+}
 fn main() -> int {
     let mut out: str = "dist";
     if arg_count() >= 2 { out = arg(1); }
     let mut assets: str = "assets";
     if arg_count() >= 3 { assets = arg(2); }
-    fs_mkdir_all(out, 493);
+    let hosts: list[str] = host_names();
+    let mut k: int = 0;
+    while k < list_len(hosts) { fs_mkdir_all(hdir(out, get(hosts, k)), 493); k = k + 1; }
     let lines: list[str] = split(route_table(), 10);
     let mut written: int = 0;
     let mut i: int = 0;
@@ -52,34 +58,64 @@ fn main() -> int {
         let f: list[str] = split(get(lines, i), 9);
         let path: str = get(f, 0);
         let html: str = page_html(path, get(f, 1), get(f, 2), route_body(i));
-        if write_text(out_file(out, path), html) > 0 { written = written + 1; }
+        if str_eq(path, "/404") {
+            k = 0;
+            while k < list_len(hosts) {
+                let m2: int = heap_mark();
+                if write_text(out_file(hdir(out, get(hosts, k)), "/404"), hs_rewrite(html, get(hosts, k))) > 0 { written = written + 1; }
+                heap_reset(m2);
+                k = k + 1;
+            }
+        } else {
+            let h: str = host_of(path);
+            if write_text(out_file(hdir(out, h), host_local(path)), hs_rewrite(html, h)) > 0 { written = written + 1; }
+        }
         heap_reset(mk);
         i = i + 1;
     }
     let mut items: str = "";
-    let mut sitemap: str = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
     i = 0;
     while i < list_len(lines) {
         let f2: list[str] = split(get(lines, i), 9);
         let p: str = get(f2, 0);
-        if str_eq(p, "/404") == false {
-            items = items + search_item(p, get(f2, 1), get(f2, 2));
-            sitemap = sitemap + "<url><loc>" + site_origin() + p + "</loc></url>\n";
-        }
+        if str_eq(p, "/404") == false { items = items + search_item(p, get(f2, 1), get(f2, 2)); }
         i = i + 1;
     }
-    sitemap = sitemap + "<url><loc>" + site_origin() + "/search/</loc></url>\n</urlset>\n";
-    fs_mkdir_all(fs_join(out, "search"), 493);
-    if write_text(fs_join(out, "search/index.html"), page_html("/search/", "Search - RUDRA", "Every page on the RUDRA website with a short description.", search_page(items))) > 0 { written = written + 1; }
-    write_text(fs_join(out, "style.css"), site_css());
-    write_text(fs_join(out, "sitemap.xml"), sitemap);
-    write_text(fs_join(out, "robots.txt"), "User-agent: *\nAllow: /\n\nSitemap: https://rudralang.tech/sitemap.xml\n");
-    write_text(fs_join(out, "CNAME"), "rudralang.tech\n");
-    write_text(fs_join(out, "_redirects"), "/docs /docs/getting-started/ 301\n/docs/ /docs/getting-started/ 301\n");
-    write_text(fs_join(out, "_headers"), "/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  X-Frame-Options: DENY\n  Content-Security-Policy: default-src 'self'; script-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'\n");
-    write_text(fs_join(out, "googlede6070be797f73c9.html"), "google-site-verification: googlede6070be797f73c9.html");
-    let copied: int = fs_copy_suffix(assets, out, ".png") + fs_copy_suffix(assets, out, ".webp");
-    print("pages " + to_str(written) + " assets " + to_str(copied) + " output " + out + "\n");
+    fs_mkdir_all(fs_join(hdir(out, "main"), "search"), 493);
+    if write_text(fs_join(hdir(out, "main"), "search/index.html"), hs_rewrite(page_html("/search/", "Search - RUDRA", "Every page on the RUDRA website with a short description.", search_page(items)), "main")) > 0 { written = written + 1; }
+    let css: str = site_css();
+    let headers: str = "/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  X-Frame-Options: DENY\n  Content-Security-Policy: default-src 'self'; script-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'\n";
+    let mut copied: int = 0;
+    k = 0;
+    while k < list_len(hosts) {
+        let mk: int = heap_mark();
+        let h: str = get(hosts, k);
+        let d: str = hdir(out, h);
+        let mut sitemap: str = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
+        i = 0;
+        while i < list_len(lines) {
+            let f3: list[str] = split(get(lines, i), 9);
+            let p3: str = get(f3, 0);
+            if str_eq(p3, "/404") == false {
+                if str_eq(host_of(p3), h) { sitemap = sitemap + "<url><loc>" + host_origin(h) + host_local(p3) + "</loc></url>\n"; }
+            }
+            i = i + 1;
+        }
+        if str_eq(h, "main") { sitemap = sitemap + "<url><loc>https://rudralang.tech/search/</loc></url>\n"; }
+        sitemap = sitemap + "</urlset>\n";
+        write_text(fs_join(d, "style.css"), css);
+        write_text(fs_join(d, "sitemap.xml"), sitemap);
+        write_text(fs_join(d, "robots.txt"), "User-agent: *\nAllow: /\n\nSitemap: " + host_origin(h) + "/sitemap.xml\n");
+        write_text(fs_join(d, "_headers"), headers);
+        copied = copied + fs_copy_suffix(assets, d, ".png") + fs_copy_suffix(assets, d, ".webp");
+        heap_reset(mk);
+        k = k + 1;
+    }
+    let md: str = hdir(out, "main");
+    write_text(fs_join(md, "CNAME"), "rudralang.tech\n");
+    write_text(fs_join(md, "googlede6070be797f73c9.html"), "google-site-verification: googlede6070be797f73c9.html");
+    write_text(fs_join(md, "_redirects"), "/docs/getting-started/ https://docs.rudralang.tech/ 301\n/docs https://docs.rudralang.tech/ 301\n/docs/* https://docs.rudralang.tech/:splat 301\n/downloads/ https://download.rudralang.tech/ 301\n/playground/ https://playground.rudralang.tech/ 301\n/status/ https://status.rudralang.tech/ 301\n/benchmarks/ https://benchmarks.rudralang.tech/ 301\n");
+    print("pages " + to_str(written) + " assets " + to_str(copied) + " hosts " + to_str(list_len(hosts)) + " output " + out + "\n");
     return 0;
 }
 return main();

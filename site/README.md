@@ -4,21 +4,34 @@ This is the source of the RUDRA website. Everything here is written in RUDRA (`.
 
 | File | Purpose |
 |---|---|
-| `gen.rux` | Generator entry point. Writes every page, `style.css`, the search page, `sitemap.xml`, `robots.txt`, `CNAME` and the Google verification file, and copies the images from `assets/` |
+| `gen.rux` | Generator entry point. Writes one folder per host (`main`, `docs`, `download`, `playground`, `status`, `benchmarks`), each with its pages, `style.css`, `sitemap.xml`, `robots.txt`, `_headers` and images. `main` also gets the search page, `CNAME`, the Google verification file and `_redirects` from the old paths to the subdomains |
+| `hosts.rux` | Which subdomain each route belongs to, and rewriting of links: links within the same host stay relative, links to other hosts become absolute (`https://docs.rudralang.tech/...`) |
 | `layout.rux` | Page head (title, description, canonical URL, Open Graph and Twitter tags, JSON-LD), header, footer and the search page layout |
-| `routes.rux` | Route table (path, title, description) and the page dispatcher |
+| `routes.rux` | Route table (path, title, description) and the page dispatcher. Paths are written as on one site (`/docs/installation/`) and mapped to hosts by `hosts.rux` |
 | `content_*.rux` | Page bodies |
 | `style.rux` | The stylesheet |
-| `check.rux` | Checks a generated site. It reports a missing route, a `.js` file, a `<script>` tag other than JSON-LD, an inline event handler, a `javascript:` URL, or a broken internal link or image |
+| `check.rux` | Checks a generated site. It reports a missing route, a `.js` file, a `<script>` tag other than JSON-LD, an inline event handler, a `javascript:` URL, or a broken internal link or image. Links to other RUDRA hosts are checked against that host's generated folder |
 | `assets/` | Images only |
+
+## Hosts
+
+| Host | Content |
+|---|---|
+| rudralang.tech | Home, features, ecosystem, roadmap, transparency, community, legal pages, search |
+| docs.rudralang.tech | Documentation; `/` is Getting Started |
+| download.rudralang.tech | Downloads |
+| status.rudralang.tech | Service and release status (static snapshot) |
+| benchmarks.rudralang.tech | Measured benchmark results |
+| playground.rudralang.tech | Live playground (separate RUDRA server) |
+| packages.rudralang.tech | Package registry (separate RUDRA server) |
 
 ## Build and check
 
 You need the `rudra` driver (`driver/rudra.rux` in the main repository) and `ruxc`. Run these commands from this directory:
 
 ```bash
-rudra run gen.rux dist
-rudra run check.rux dist
+rudra run gen.rux out
+rudra run check.rux out
 ```
 
 The check prints `SITE_CHECK_PASSED` and exits with 0 when the site has no problems. Otherwise its exit code is the number of problems found.
@@ -27,16 +40,16 @@ The check prints `SITE_CHECK_PASSED` and exits with 0 when the site has no probl
 
 | Feature | How it works now |
 |---|---|
-| Theme | Follows the system setting through `prefers-color-scheme` |
+| Theme | Dark on every page by default (`color-scheme: dark`) |
 | Mobile navigation | The links wrap under the logo; there is no menu button |
 | Search | `/search/` lists every page with its description. Use the browser's find-in-page to search it |
-| Playground | Shows every sample program and its verified output at the same time |
-| Account | Links to GitHub sign-in and has a sign-out form. The profile is not shown, because showing it would need JavaScript |
+| Playground | `playground.rudralang.tech` is a RUDRA server (`apps/playground` in the main repository): an HTML form posts the code, and the server compiles and runs it in a sandbox. The static `/playground/` page generated here is not deployed |
+| Account | The site has no accounts |
 | Code blocks | No Copy button; select the text to copy it |
 
 ## Validation (2026-11-06)
 
-`check.rux` passed on the generated site: 39 routes, 41 HTML files, 0 problems. A copy of the site with deliberately inserted problems was detected with exit code 87.
+`check.rux` passed on the generated site: 41 routes, 6 hosts, 48 HTML files, 0 problems. Removing one docs page made it report the missing route and the broken cross-site links that pointed to it. All 30 code samples compile and run. On the live site, every page on every host returned 200, there were no executable scripts, and each old path redirected (301) to its subdomain.
 
 ## Content accuracy
 
