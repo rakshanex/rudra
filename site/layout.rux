@@ -28,7 +28,7 @@ fn page_head(path: str, title: str, desc: str) -> str {
     let d: str = esc_attr(desc);
     let url: str = site_origin() + canonical_path(path);
     let mut h: str = "<head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">";
-    h = h + "<meta name=\"color-scheme\" content=\"dark light\">";
+    h = h + "<meta name=\"color-scheme\" content=\"dark\">";
     h = h + "<title>" + t + "</title><meta name=\"description\" content=\"" + d + "\">";
     h = h + "<meta name=\"google-site-verification\" content=\"Djd9LOcOm8GTo-hSV89tsQ4pUF02oSTkJHGocseXnbA\">";
     h = h + "<link rel=\"canonical\" href=\"" + url + "\">";
